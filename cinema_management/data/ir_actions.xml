@@ -1,0 +1,20 @@
+<odoo noupdate="1">
+    <record id="movie_review_action_update_response" model="ir.actions.server">
+        <field name="name">Updata response</field>
+        <field name="model_id" ref="cinema_management.model_cinema_movie"/>
+        <field name="binding_model_id" ref="cinema_management.model_cinema_movie"/>
+        <field name="binding_view_types">form,list</field>
+        <field name="state">code</field>
+        <field name="code">action = records.action_update_response()</field>
+    </record>
+    <!--Scheduled Action-->
+    <record id="action_update_showing_price" model = "ir.cron">
+        <field name ="name">Updata showing prices</field>
+        <field name ="model_id" ref="model_movie_showing"/>
+        <field name ="state">code</field>
+        <field name= "code">model._update_showing_price()</field>
+        <field name="interval_number">1</field>
+        <field name= "interval_type">days</field>
+        <field name= "active"/>
+    </record>
+</odoo>

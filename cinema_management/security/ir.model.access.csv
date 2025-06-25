@@ -1,0 +1,9 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_movie_theater_user,movie.theater user,model_movie_theater,cinema_management.cinema_manager_manager_group,1,1,1,1
+access_theater_room_user,theater.room user,model_theater_room,cinema_management.cinema_manager_manager_group,1,1,1,1
+access_movie_showing_manager,movie.showing manager,model_movie_showing,cinema_management.cinema_manager_manager_group,1,1,1,1
+access_movie_showing_user,movie.showing user,model_movie_showing,cinema_management.cinema_manager_user_group,1,1,1,1
+access_movie_showing_line_manager,movie.showing.line manager,model_movie_showing_line,cinema_management.cinema_manager_manager_group,1,1,1,1
+access_movie_showing_line_user,movie.showing.line user,model_movie_showing_line,cinema_management.cinema_manager_user_group,1,1,1,1
+access_cinema_movie_user,cinema.movie user,model_cinema_movie,cinema_management.cinema_manager_manager_group,1,1,1,1
+access_movie_review_user,movie.review user,model_movie_review,cinema_management.cinema_manager_manager_group,1,1,1,1

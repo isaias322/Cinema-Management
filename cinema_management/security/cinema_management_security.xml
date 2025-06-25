@@ -1,0 +1,40 @@
+<odoo>
+    <data>
+        <!--For the rights of two user-->                   <!--ir.module.category is used for access rights and security groups.-->
+        <record id="cinema_management_group_category" model="ir.module.category">
+            <field name="name">Cinema Management</field>
+        </record>
+
+        <record id="cinema_manager_user_group" model= "res.groups">
+            <field name="name">User</field>
+            <field name="category_id" ref="cinema_management.cinema_management_group_category"/>
+        </record>
+
+        <record id="cinema_manager_manager_group" model= "res.groups">
+            <field name="name">Manager</field>
+            <field name="category_id" ref="cinema_management.cinema_management_group_category"/>
+        </record>
+
+        <record id="present_movie_showings_rule" model="ir.rule">
+            <field name="name">Present movie showings</field>
+            <field name="model_id" ref="model_movie_showing"/>
+            <field name="domain_force">[('is_past', '=', False)]</field>
+            <field name="perm_write" eval="True"/>
+            <field name="perm_read" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <!--Manager can access the restricted data and the restriction is separated by groups-->
+            <field name="groups" eval="[(4, ref('cinema_management.cinema_manager_user_group'))]"/>
+        </record>
+        <!--This rule is making sure that users only see movie theaters that belong to their allowed companies.-->
+        <record id="movie_theater_company_rule" model='ir.rule'>
+            <field name="name">Movie Theather Companies</field>
+            <field name="model_id" ref="model_movie_theater"/><!--company_ids are avalible on odoo to check on which company you are steping in-->
+            <field name="domain_force">[('company_id', 'in', company_ids)]</field>
+        </record>
+        <!--This rule is making sure that users only see movie theaters that belong to their allowed companies.-->
+    </data>
+</odoo>
+
+<!--code for inherting the rights of another user: 
+<field name="implied_ids" eval="[(4, ref('cinema_management.cinema_manager_user_group'))]"/> -->

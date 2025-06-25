@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- list View -->                      <!--ir.ui.view is used to define how screens look.-->
+    <record id="view_movie_showing_list" model="ir.ui.view">
+        <field name="name">movie.showing.list</field>
+        <field name="model">movie.showing</field>
+        <field name="arch" type="xml">
+            <list string="Movie Showings">
+                <field name="movie_id"/>
+                <field name="movie_theater_id"/>
+                <field name="theater_room_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="seats_number"/>
+                <field name="total_attendees"/>
+                <field name="ticket_price"/>
+                <field name="is_past"/>
+                <field name="status"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_movie_showing_form" model="ir.ui.view">
+        <field name="name">movie.showing.form</field>
+        <field name="model">movie.showing</field>
+        <field name="arch" type="xml">
+            <form string="Movie Showing">
+                <!--The header contains buttons and actions that control the record.
+                    Status buttons (Confirm, Cancel, etc.)-->
+                <header>
+                    <field name="status" widget="statusbar" options="{'clickable': '1'}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="movie_theater_id"/>
+                        <field name="movie_id"/>
+                        <field name="theater_room_id" domain="[('movie_theater_id', '=', movie_theater_id)]"/>
+                        <field name="date_start" widget="daterange" options="{'end_date_field': 'date_end'}" string="Schedule"/>
+                        <field name="date_end" invisible="1"/>
+                        <field name="seats_number" readonly="1"/>
+                        <field name="total_attendees" readonly="1"/>
+                        <field name="ticket_price"/>
+                        <field name="is_past"/>
+
+                    </group>
+                    <notebook>
+                        <page string="Attendees">
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="customer_id"/>
+                                    <field name="order_id" readonly="1"/>
+                                    <field name="state"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id= "movie_showing_search_view" model= "ir.ui.view">
+        <field name="name">movie.showing.search</field>
+        <field name="model">movie.showing</field>
+        <field name="arch" type="xml">
+            <search>
+                <!--movie showing today from 00-00-00 to 23-59-59-->
+                <filter string="Today" name="today"
+                       domain="[('date_start', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00')), ('date_start', '&lt;', context_today().strftime('%Y-%m-%d 23:59:59'))]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_movie_showing" model="ir.actions.act_window">
+        <field name="name">Movie Showings</field>
+        <field name="res_model">movie.showing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Menu Item -->
+    <menuitem id="menu_movie_showing" name="Movie Showings"
+              parent="menu_movie_root" action="action_movie_showing" sequence="4"/>
+</odoo>
